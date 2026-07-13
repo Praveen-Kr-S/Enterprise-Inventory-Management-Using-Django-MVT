@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <h1>All Products</h1>
+
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Code</th>
+            <th>Price</th>
+            <th>GST</th>
+            <th>Pictures</th>
+            <th>Food Product</th>
+        </tr>
+
+        {% for product in products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.product_code }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.gst }}</td>
+                {% if product.picture %}
+                    <td><img src="{{ product.picture.url }}" alt="img" width="150" height="150"></td>
+                {% else %}
+                    <td>No Images</td>
+                {% endif %}
+                <td>{{ product.food_product }}</td>
+            </tr>
+        {% endfor %}
+
+
+    </table>
+    
+</body>
+</html>
