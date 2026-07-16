@@ -1,42 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+
+        <h1 class="text-dark my-5">All Products</h1>
 
 
-    <h1>All Products</h1>
+        <div >
+            <a class="btn btn-primary m-3 float-end" href="{% url 'add_product' %}">Add Product</a>
+        </div>
 
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Code</th>
-            <th>Price</th>
-            <th>GST</th>
-            <th>Pictures</th>
-            <th>Food Product</th>
-        </tr>
 
-        {% for product in products %}
-            <tr>
-                <td>{{ product.product_name }}</td>
-                <td>{{ product.product_code }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.gst }}</td>
-                {% if product.picture %}
-                    <td><img src="{{ product.picture.url }}" alt="img" width="150" height="150"></td>
-                {% else %}
-                    <td>No Images</td>
-                {% endif %}
-                <td>{{ product.food_product }}</td>
+        <table class="table table-primary table-striped">
+            <tr >
+                <th>Product Name</th>
+                <th>Product Code</th>
+                <th>Price</th>
+                <th>GST</th>
+                <th>Pictures</th>
+                <th>Food Product</th>
+                <th>Edit</th>
+                <th>Remove</th>
             </tr>
-        {% endfor %}
-
-
-    </table>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.product_code }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.gst }}</td>
+                    {% if product.picture %}
+                        <td><img src="{{ product.picture.url }}" alt="img" width="150" height="150"></td>
+                    {% else %}
+                        <td>No Images</td>
+                    {% endif %}
+                    <td>{{ product.food_product }}</td>
+                    <td><a class="btn btn-warning" href="{% url 'update_product' product.id %}">Update</a></td>
+                    <td><a class="btn btn-danger" href="{% url 'delete_product' product.id %}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
     
-</body>
-</html>
+{% endblock %}

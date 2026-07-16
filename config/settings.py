@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'Frontend',
     'OrderManagement',
     'Authentication',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
