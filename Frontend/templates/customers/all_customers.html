@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="text-dark my-5 text-center" >All Customers</h1>
+
+    <div >
+            <a class="btn btn-primary m-3 float-end" href=" {% url 'add_customer' %} ">Add Customer</a>
+    </div>
+
+    <table class="table table-primary table-striped">
+        <tr>
+            <th>Custimer Name</th>
+            <th>Customer Since</th>
+            <th>Update</th>
+            <th>Remove</th>
+        </tr>
+        {% for customer in customers %}
+
+        <tr>
+            <td>{{ customer.customer_name }}</td>
+            <td>{{ customer.customer_since }}</td>
+            <td><a class="btn btn-warning" href="{% url 'edit_customer' customer.id  %}">Edit</a></td>
+            <td><a class="btn btn-danger" href="{% url 'delete_customer' customer.id  %}">Delete</a></td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
+{% endblock %}
