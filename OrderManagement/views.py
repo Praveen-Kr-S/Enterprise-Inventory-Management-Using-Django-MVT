@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import *
-from .forms import CustomerForm
+from .forms import CustomerForm, OrderForm
 
 def All_Customers(request):
     customers = Customer.objects.all()
@@ -32,3 +32,69 @@ def Delete_Customer(request, id):
     customer = Customer.objects.get(id=id)
     customer.delete()
     return redirect('all_customers')
+
+
+
+
+def All_Orders(request):
+    orders = Order.objects.all()
+    return render(request, 'orders/all_orders.html', {'orders': orders})
+
+def Add_Order(request):
+    add_form = OrderForm()
+
+    if request.method == 'POST':
+        product_reference = Product.objects.get(id=request.POST.get('product_reference'))
+        amount = float(product_reference.price)*float(request.POST.get('quantity'))
+        gst = (amount*float(product_reference.gst))/100
+        bill_amount = amount+gst
+        new_order = Order(
+            customer_reference_id = request.POST.get('customer_reference'),
+            product_reference_id = request.POST.get('product_reference'),
+            order_number = request.POST.get('order_number'),
+            order_date = request.POST.get('order_date'),
+            quantity = request.POST.get('quantity'),
+            amount = amount,
+            gst = gst,
+            bill_amount = bill_amount
+        )
+
+        new_order.save()
+        return redirect('all_orders')
+
+    return render(request, 'orders/add_order.html', {'add_form': add_form})
+
+
+
+def Edit_Order(request,id):
+    order = Order.objects.get(id=id)
+    edit_form = OrderForm(instance=order)
+
+    if request.method == 'POST':
+        product_reference = Product.objects.get(id=request.POST.get('product_reference'))
+        amount = float(product_reference.price)*float(request.POST.get('quantity'))
+        gst = (amount*float(product_reference.gst))/100
+        bill_amount = amount+gst
+
+        order_filter = Order.objects.filter(id=id)
+
+        order_filter.update(
+            customer_reference_id = request.POST.get('customer_reference'),
+            product_reference_id = request.POST.get('product_reference'),
+            order_number = request.POST.get('order_number'),
+            order_date = request.POST.get('order_date'),
+            quantity = request.POST.get('quantity'),
+            amount = amount,
+            gst = gst,
+            bill_amount = bill_amount
+        )
+
+        return redirect('all_orders')
+    
+    return render(request,'orders/add_order.html',{'edit_form':edit_form})
+
+
+def Delete_Order(request, id):
+    order = Order.objects.get(id=id)
+    order.delete()
+    return redirect('all_orders') 

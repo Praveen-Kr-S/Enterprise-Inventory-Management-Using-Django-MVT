@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+ <h1 class="text-dark my-5 text-center" >All Orders</h1>
+
+    <div >
+            <a class="btn btn-primary m-3 float-end" href="{% url 'add_order' %}">Add Customer</a>
+    </div>
+
+    <table class="table table-primary table-striped">
+        <tr>
+            <th>Customer Name</th>
+            <th>Product Name</th>
+            <th>Order Number</th>
+            <th>Order Date</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>GST</th>
+            <th>Bill Amount</th>
+            <th>Update</th>
+            <th>Remove</th>
+        </tr>
+
+        {% for order in orders %}
+
+        <tr>
+            <td>{{ order.customer_reference }}</td>
+            <td>{{ order.product_reference }}</td>
+            <td>{{ order.order_number }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.amount }}</td>
+            <td>{{ order.gst }}</td>
+            <td>{{ order.bill_amount }}</td>
+            <td><a class="btn btn-warning" href="{% url 'edit_order' order.id %}">Edit</a></td>
+            <td><a class="btn btn-danger" href="{% url 'delete_order' order.id %}">Delete</a></td>
+        </tr>
+
+        {% endfor %}
+
+
+    </table>
+
+{% endblock %}
