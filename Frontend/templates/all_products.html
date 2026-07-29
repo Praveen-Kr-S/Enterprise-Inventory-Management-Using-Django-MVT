@@ -20,7 +20,9 @@
                 <th>Pictures</th>
                 <th>Food Product</th>
                 <th>Edit</th>
+                {% if request.user.role == 1 or request.user.role == 0 %}
                 <th>Remove</th>
+                {% endif %}
             </tr>
             {% for product in products %}
                 <tr>
@@ -35,7 +37,9 @@
                     {% endif %}
                     <td>{{ product.food_product }}</td>
                     <td><a class="btn btn-warning" href="{% url 'update_product' product.id %}">Update</a></td>
+                    {% if request.user.role == 1 or request.user.role == 0 %}
                     <td><a class="btn btn-danger" href="{% url 'delete_product' product.id %}">Delete</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

@@ -1,12 +1,14 @@
 from django.shortcuts import redirect, render
 from .models import *
 from .forms import CustomerForm, OrderForm
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/')
 def All_Customers(request):
     customers = Customer.objects.all()
     return render(request, 'customers/all_customers.html', {'customers': customers})
 
-
+@login_required(login_url='/')
 def Add_Customer(request):
     add_form = CustomerForm()
     if request.method == 'POST':
@@ -16,7 +18,7 @@ def Add_Customer(request):
             return redirect('all_customers')
     return render(request, 'customers/add_customer.html', {'add_form': add_form})
 
-
+@login_required(login_url='/')
 def Edit_Customer(request, id):
     customer = Customer.objects.get(id=id)
     edit_form = CustomerForm(instance=customer)
@@ -27,7 +29,7 @@ def Edit_Customer(request, id):
             return redirect('all_customers')
     return render(request, 'customers/add_customer.html', {'edit_form': edit_form})
 
-
+@login_required(login_url='/')
 def Delete_Customer(request, id):
     customer = Customer.objects.get(id=id)
     customer.delete()
@@ -35,11 +37,13 @@ def Delete_Customer(request, id):
 
 
 
-
+@login_required(login_url='/')
 def All_Orders(request):
     orders = Order.objects.all()
     return render(request, 'orders/all_orders.html', {'orders': orders})
 
+
+@login_required(login_url='/')
 def Add_Order(request):
     add_form = OrderForm()
 
@@ -66,6 +70,7 @@ def Add_Order(request):
 
 
 
+@login_required(login_url='/')
 def Edit_Order(request,id):
     order = Order.objects.get(id=id)
     edit_form = OrderForm(instance=order)
@@ -94,6 +99,7 @@ def Edit_Order(request,id):
     return render(request,'orders/add_order.html',{'edit_form':edit_form})
 
 
+@login_required(login_url='/')
 def Delete_Order(request, id):
     order = Order.objects.get(id=id)
     order.delete()
